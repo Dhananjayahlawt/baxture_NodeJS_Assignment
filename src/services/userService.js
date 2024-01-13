@@ -16,6 +16,9 @@ async function createUser(data) {
 }
 
 async function getUsers() {
+    for(let i=0;i<=10000000000000;i++){
+        
+    }
   return users;
 }
 
