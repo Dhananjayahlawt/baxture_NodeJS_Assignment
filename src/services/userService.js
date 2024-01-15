@@ -1,16 +1,10 @@
 const { StatusCodes } = require("http-status-codes");
+const { UserModel } = require("../models");
 const { v4: uuidv4 } = require("uuid");
-const newUuid = uuidv4();
-const users = [];
-function checkUserIndex(userId) {
-  const userIndex = users.findIndex((user) => user.id === userId);
-  console.log(userIndex);
-  if (userIndex === -1) {
-    return false;
-  }
-  return userIndex;
-}
+const userModel = new UserModel();
+
 async function createUser(data) {
+  const newUuid = uuidv4();
   const { userName, age, hobbies } = data;
   const newUser = {
     id: newUuid,
@@ -18,48 +12,31 @@ async function createUser(data) {
     age,
     hobbies,
   };
-  users.push(newUser);
-  console.log(users);
+  userModel.addUser(newUser);
   return newUser;
 }
 
 async function getUsers() {
+  const users = userModel.getUsers();
   return users;
 }
 
 async function getUser(userId) {
-  console.log(users);
-  const user = users.find((user) => user.id === userId);
-  console.log(user)
+  const user = userModel.getUserById(userId);
   return user;
 }
 
 async function updateUser(req) {
-  const userId = req.params.id;
-  const updateUser = req.body;
-  const userIndex = checkUserIndex(userId);
-  console.log(userIndex);
-  if (userIndex === -1) {
-    return false;
-  }
-  const updatedUser = {
-    ...users[userIndex],
-    age: updateUser.age || users[userIndex].age,
-    hobbies: updateUser.hobbies || users[userIndex].hobbies,
-  };
-  users[userIndex] = updatedUser;
+  const id = req.params.id;
+  const updateFields = req.body;
+  const updatedUser=userModel.updateUser(id,updateFields)
   return updatedUser;
 }
 
 async function deleteUser(req) {
   const userId = req.params.id;
-  const userIndex = checkUserIndex(userId);
-  console.log(userIndex);
-  if (userIndex === -1) {
-    return false;
-  }
-  users = users.filter((user) => user.id !== userId);
-  return true;
+  const isDeleted=userModel.deleteUser(userId);
+  return isDeleted;
 }
 
 module.exports = {

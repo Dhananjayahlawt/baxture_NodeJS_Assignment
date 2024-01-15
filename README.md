@@ -17,7 +17,7 @@ To run the server execute with one instance on one port
 
 npm run start:dev
 
-To run the server execute with worker listening on diffrent port(4001,40002) 
+To run the server execute with worker listening on diffrent port(3001,3002) 
 
 npm run start:multi
 
