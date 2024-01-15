@@ -41,9 +41,22 @@ const updateUser = async (req, res) => {
   }
 };
 
+const deleteUser=async(req,res)=>{
+  const isDeleted=await userService.deleteUser(req)
+  if(isDeleted){
+    successResponse.data = req.params.id;
+    return res.status(StatusCodes.OK).json(successResponse);
+
+  }
+  else{
+    errorResponse.error = { message: "User Id Does Not Exists" };
+    return res.status(StatusCodes.NOT_FOUND).json(errorResponse);
+  }
+}
 module.exports = {
   getAllUsers,
   getUserById,
   createUser,
   updateUser,
+  deleteUser
 };
