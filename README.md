@@ -1,5 +1,4 @@
-# baxture_NodeJS_Assignment
-Assignment
+# Node Js Worker Thread
 
 Setup the project
 
